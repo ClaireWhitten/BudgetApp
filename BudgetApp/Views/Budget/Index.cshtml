@@ -1,0 +1,64 @@
+﻿@model IEnumerable<TransactionListViewModel>
+@{ 
+    double total = 0;
+    foreach (var item in Model)
+    {
+        total = total + item.Amount;
+    }
+
+    string SetColour(TransactionListViewModel transaction)
+    {
+        if (transaction.TransactionType == BudgetApp.Domain.TransactionType.Incoming)
+        {
+            return "text-success";
+        }
+        else
+        {
+            return "text-danger";
+        }
+    }
+
+    string SetIcon(TransactionListViewModel transaction)
+    {
+        if (transaction.TransactionType == BudgetApp.Domain.TransactionType.Incoming)
+        {
+            return "/Photos/green_arrow.png";
+        }
+        else
+        {
+            return "/Photos/red_arrow.png";
+        }
+
+    }
+
+}
+
+
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Payment Type</th>
+                    <th>Title</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    
+                <tr class="@SetColour(item)">
+                    <td><img src="@SetIcon(item)" id="arrowIcon"/></td>
+                    <td>@item.Date</td>
+                    <td>@item.TransactionType</td>
+                    <td>@item.Title</td>
+                    <td>@item.Amount</td>
+                </tr>
+                    
+                
+                }
+                <tr>Budget Total:@total</tr>
+            </tbody>
+        </table>
+    </div>
